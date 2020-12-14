@@ -12,21 +12,23 @@ export default class extends Listener {
 
     async exec(msg: Message) {
         if (msg.content.startsWith(this.client.commandHandler.prefix as string)) {
-            const esterEgg = require('../../../easteregg.json')
-            if (msg.member) await msg.channel.send(Embed.create(msg).setTitle('명령어 없음').setDescription('그런 명령어 없다구요!'))
             const str = msg.content.slice((this.client.commandHandler.prefix as string).length).split(' ')[0]
-            if (esterEgg[str]) {
-                const ester = esterEgg[str]
+            const ester = await this.client.db('eastereggs').where({req: str}).then(it => it[0])
+            if (ester) {
+                if (msg.guild) await msg.delete()
                 let res
                 switch (ester.type) {
-                    case 'image':
-                        res = Embed.create(msg).setTitle(str).setImage(ester.data)
+                    case '사진':
+                        res = Embed.create(msg).setTitle(str).setImage(ester.res)
                         break
-                    case 'text':
+                    case '텍스트':
                     default:
-                        res = Embed.create(msg).setTitle(str).setDescription(ester.data)
+                        res = Embed.create(msg).setTitle(str).setDescription(ester.res)
                 }
+                res.footer!.text = res.footer!.text + ''
                 await msg.author.send(res)
+            } else {
+                await msg.channel.send(Embed.create(msg).setTitle('명령어 없음').setDescription('그런 명령어 없다구요!'))
             }
         }
     }

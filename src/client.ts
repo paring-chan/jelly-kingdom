@@ -3,20 +3,18 @@ import config from '../config.json'
 import * as path from "path";
 import {Message, Team, User} from "discord.js";
 import Dokdo from "dokdo";
+import Knex from "knex";
 
 declare module 'discord.js' {
     interface Client {
         commandHandler: CommandHandler
         listenerHandler: ListenerHandler
         inhibitorHandler: InhibitorHandler
+        db: Knex
     }
 }
 
 export default class JellyClient extends AkairoClient {
-    commandHandler: CommandHandler
-    listenerHandler: ListenerHandler
-    inhibitorHandler: InhibitorHandler
-
     constructor() {
         super({
             disableMentions: 'everyone',
@@ -43,6 +41,7 @@ export default class JellyClient extends AkairoClient {
         this.commandHandler.loadAll()
         this.inhibitorHandler.loadAll()
         this.commandHandler.useInhibitorHandler(this.inhibitorHandler)
+        this.db = Knex(config.db)
     }
 
     async start() {
