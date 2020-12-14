@@ -10,9 +10,24 @@ export default class extends Listener {
         });
     }
 
-    exec(msg: Message): any {
+    async exec(msg: Message) {
         if (msg.content.startsWith(this.client.commandHandler.prefix as string)) {
-            return msg.channel.send(Embed.create(msg).setTitle('명령어 없음').setDescription('그런 명령어 없다구요!'))
+            const esterEgg = require('../../../easteregg.json')
+            if (msg.member) await msg.channel.send(Embed.create(msg).setTitle('명령어 없음').setDescription('그런 명령어 없다구요!'))
+            const str = msg.content.slice((this.client.commandHandler.prefix as string).length).split(' ')[0]
+            if (esterEgg[str]) {
+                const ester = esterEgg[str]
+                let res
+                switch (ester.type) {
+                    case 'image':
+                        res = Embed.create(msg).setTitle(str).setImage(ester.data)
+                        break
+                    case 'text':
+                    default:
+                        res = Embed.create(msg).setTitle(str).setDescription(ester.data)
+                }
+                await msg.author.send(res)
+            }
         }
     }
 }
