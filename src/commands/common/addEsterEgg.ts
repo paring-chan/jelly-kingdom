@@ -27,7 +27,7 @@ export default class extends Command {
                         start: '대답을 입력해주세요'
                     },
                     id: 'res',
-                    match: 'text'
+                    match: 'rest'
                 }
             ]
         });

@@ -12,10 +12,10 @@ export default class extends Command {
         Object.keys(require.cache).filter(r=>!r.includes('node_modules')).map(it => delete require.cache[it])
         this.client.commandHandler.categories.forEach(it => it.removeAll())
         this.client.listenerHandler.categories.forEach(it => it.removeAll())
-        this.client.inhibitorHandler.categories.forEach(it => it.removeAll())
+        // this.client.inhibitorHandler.categories.forEach(it => it.removeAll())
         this.client.commandHandler.loadAll()
         this.client.listenerHandler.loadAll()
-        this.client.inhibitorHandler.loadAll()
+        // this.client.inhibitorHandler.loadAll()
         return msg.react('✅')
     }
 }

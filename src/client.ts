@@ -9,7 +9,7 @@ declare module 'discord.js' {
     interface Client {
         commandHandler: CommandHandler
         listenerHandler: ListenerHandler
-        inhibitorHandler: InhibitorHandler
+        // inhibitorHandler: InhibitorHandler
         db: Knex
     }
 }
@@ -23,9 +23,9 @@ export default class JellyClient extends AkairoClient {
         this.listenerHandler = new ListenerHandler(this, {
             directory: path.join(__dirname, 'listeners')
         })
-        this.inhibitorHandler = new InhibitorHandler(this, {
-            directory: path.join(__dirname, 'inhibitors'),
-        })
+        // this.inhibitorHandler = new InhibitorHandler(this, {
+            // directory: path.join(__dirname, 'inhibitors'),
+        // })
         this.commandHandler = new CommandHandler(this, {
             directory: path.join(__dirname, 'commands'),
             prefix: config.prefix,
@@ -35,12 +35,12 @@ export default class JellyClient extends AkairoClient {
         this.listenerHandler.setEmitters({
             client: this,
             commandHandler: this.commandHandler,
-            inhibitorHandler: this.inhibitorHandler
+            // inhibitorHandler: this.inhibitorHandler
         })
         this.listenerHandler.loadAll()
         this.commandHandler.loadAll()
-        this.inhibitorHandler.loadAll()
-        this.commandHandler.useInhibitorHandler(this.inhibitorHandler)
+        // this.inhibitorHandler.loadAll()
+        // this.commandHandler.useInhibitorHandler(this.inhibitorHandler)
         this.db = Knex(config.db)
     }
 
