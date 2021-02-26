@@ -27,8 +27,6 @@ export default class extends Listener {
                 }
                 res.footer!.text = res.footer!.text + ''
                 await msg.author.send(res)
-            } else {
-                await msg.channel.send(Embed.create(msg).setTitle('명령어 없음').setDescription('그런 명령어 없다구요!'))
             }
         }
     }
